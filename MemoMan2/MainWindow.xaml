@@ -1,0 +1,34 @@
+﻿<Window x:Class="MemoMan2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemoMan2"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Style="{StaticResource HighLightWindow}"
+        Title="MemoMan2" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" BorderBrush="#FF91FAFF" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="{DynamicResource DefaultColor}" BorderThickness="1">
+    <Window.DataContext>
+        <local:WindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <!--デフォルトブラシ定義 StaticResourceは変更通知がされない-->
+        <SolidColorBrush x:Key="DefaultColor" Color="LightSkyBlue"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="395*"/>
+        </Grid.RowDefinitions>
+        <!--GridRow0 上-->
+        <Rectangle HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="300"/>
+        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource DefaultColor}" BorderBrush="{x:Null}" Foreground="White" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
+        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource DefaultColor}" BorderBrush="{x:Null}" Foreground="White" Height="30" Padding="0" BorderThickness="0"/>
+        <!--GridRow1 下-->
+        <TextBox Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" Text="TextBox" BorderBrush="{x:Null}" Background="{x:Null}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo"/>
+    </Grid>
+</Window>

@@ -7,15 +7,29 @@
 
         <Style x:Key="HighLightWindow" TargetType="Window">
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Opacity" Value="1.0"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="false">
-                    <Setter Property="Opacity" Value="0.01"/>
-                </Trigger>
                 <Trigger Property="IsActive" Value="true">
                     <Setter Property="Opacity" Value="1.0"/>
                 </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsActive" Value="false"/>
+                        <Condition Property="IsMouseOver" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation x:Name="Limit" Storyboard.TargetProperty="Opacity" To="{Binding Path=OpacityLimit}" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.EnterActions>
+                    <MultiTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.ExitActions>
+                </MultiTrigger>
             </Style.Triggers>
         </Style>
     </Application.Resources>

@@ -12,6 +12,10 @@ namespace MemoMan2
     /// App.xaml の相互作用ロジック
     /// </summary>
     public partial class App : Application
+    {   
+    }
+    public class WindowViewModel
     {
+        public static double OpacityLimit { get; set; } = 0.2;
     }
 }

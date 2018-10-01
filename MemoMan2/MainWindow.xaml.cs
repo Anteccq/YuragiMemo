@@ -23,6 +23,7 @@ namespace MemoMan2
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -40,9 +41,5 @@ namespace MemoMan2
         {
             this.DragMove();
         }
-    }
-    public class WindowViewModel
-    {
-        public double Opacity { get; set; } = 1.0;
     }
 }

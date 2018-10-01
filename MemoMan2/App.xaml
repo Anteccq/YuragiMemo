@@ -18,7 +18,7 @@
                     <MultiTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation x:Name="Limit" Storyboard.TargetProperty="Opacity" To="{Binding Path=OpacityLimit}" Duration="0:0:0.2"/>
+                                <DoubleAnimation x:Name="Limit" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiTrigger.EnterActions>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace MemoMan2
 {
@@ -22,102 +23,108 @@ namespace MemoMan2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int Number; 
 
-        public MainWindow() : this(0)
+        //データ用リスト
+        private static List<SaveData> datas = new List<SaveData>();
+
+        private SaveData _datas;
+        private double rightEnd;
+
+        private SaveData Data
         {
-
+            get
+            {
+                return _datas;
+            }
+            set
+            {
+                this._datas = value;
+                this.Left = _datas.Left;
+                this.Top = _datas.Top;
+                this.MoonLight.Text = _datas.Text;
+            }
         }
 
-        public MainWindow(int number)
+        //初期状態での呼び出し
+        public MainWindow()
         {
+
+            if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
             InitializeComponent();
-            this.Number = number;
+            rightEnd = SystemParameters.WorkArea.Width - this.Width;
 
-            //初期起動状態
-            if (number == 0)
+            //ファイルが存在
+            if (File.Exists(App.Filepath))
             {
-                
-                //フォルダがあるかどうか--新規作成
-                if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
-                else
+                var rawdatas = JsonConvert.DeserializeObject<List<SaveData>>(File.ReadAllText(App.Filepath));
+                var isFirst = true;
+                foreach(var data in rawdatas)
                 {
-                    int filecount;
-                    if( (filecount = Directory.GetFiles(App.PATH,"memo*",SearchOption.TopDirectoryOnly).Length) > 1){
-                        for (int i = 1; i < filecount; i++)
-                        {
-                            if (File.Exists(App.Filepath + i))
-                            {
-                                var newmemo = new MainWindow(i);
-                                newmemo.Show();
-                            }
-                        }
+                    if (isFirst)
+                    {
+                        Data = data;
+                        datas.Add(Data);
+                        isFirst = false;
+                        continue;
                     }
+                    var newmemo = new MainWindow(data);
+                    newmemo.Show();
                 }
-            }
-
-            //ファイルが見つかるか確認
-            if(File.Exists(App.Filepath + this.Number))
-            {
-                this.MoonLight.Text = App.FileRead(this.Number);
             }
             else
             {
-                File.CreateText(App.Filepath + this.Number);
+                Data = new SaveData();
+                datas.Add(Data);
             }
             this.MoonLight.TextChanged += MoonLight_TextChanged;
 
-            if (!PointReader())
-            {
-                App.PointWrite(this.Left, this.Top, this.Number);
-            }
-
+        }
+        public MainWindow(SaveData data)
+        {
+            InitializeComponent();
+            Data = data;
+            datas.Add(Data);
+            Debug.WriteLine("ばちっ");
+            this.MoonLight.TextChanged += MoonLight_TextChanged;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(File.Exists(App.Filepath + this.Number)) File.Delete(App.Filepath + this.Number);
-            if (File.Exists(App._Filepath + this.Number)) File.Delete(App._Filepath + this.Number);
+            datas.Remove(Data);
+            DataWrite();
             this.Close();
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            int num = 1;
-            int filecount = Directory.GetFiles(App.PATH, "*", SearchOption.TopDirectoryOnly).Length;
-            if (filecount > 0) num = filecount;
-            var newmemo = new MainWindow(filecount);
+            var newmemo = new MainWindow(new SaveData());
             newmemo.Show();
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
-            App.PointWrite(this.Left, this.Top, this.Number);
+            if (this.Left >= rightEnd) this.Left = rightEnd;
+            if (this.Left < 0) this.Left = 0;
+            Data.Left = this.Left;
+            Data.Top = this.Top;
+            DataWrite();
         }
 
         private void MoonLight_TextChanged(object sender, TextChangedEventArgs e)
         {
-            App.FileWrite(this.Number, this.MoonLight.Text);
+            Data.Text = this.MoonLight.Text;
+            DataWrite();
         }
 
-        private bool PointReader()
+        private static void DataWrite()
         {
-            if (File.Exists(App._Filepath + this.Number))
+            var json = JsonConvert.SerializeObject(datas, Formatting.Indented);
+            if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
+            using(var stream = new StreamWriter(App.Filepath, false, Encoding.UTF8))
             {
-                using (StreamReader sr = new StreamReader(App._Filepath + this.Number, Encoding.GetEncoding("utf-8")))
-                {
-                    string data;
-                    while ((data = sr.ReadLine()) != null)
-                    {
-                        if (data.IndexOf("Left:") != -1) this.Left = double.Parse(data.Replace("Left:", ""));
-                        if (data.IndexOf("Top:") != -1) this.Top = double.Parse(data.Replace("Top:", ""));
-                    }
-                }
+                stream.Write(json);
             }
-            else return false;
-
-            return true;
         }
     }
 

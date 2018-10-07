@@ -1,4 +1,5 @@
 ﻿<Window x:Class="MemoMan2.MainWindow"
+        x:Name="WIndow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,11 +8,12 @@
         mc:Ignorable="d"
         AllowsTransparency="True"
         Style="{StaticResource HighLightWindow}"
-        Title="MemoMan2" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="{DynamicResource DefaultColor}" BorderThickness="1" Foreground="Black" Icon="icons/MemoMan2.png">
+        Title="MemoMan2" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderThickness="1" Foreground="Black" Icon="icons/MemoMan2.png" Background="Black">
     <Window.Resources>
         <!--デフォルトブラシ定義 StaticResourceは変更通知がされない-->
         <SolidColorBrush x:Key="DefaultColor" Color="Black"/>
         <SolidColorBrush x:Key="DefaultFontColor" Color="Gray"/>
+
     </Window.Resources>
 
     <Grid>
@@ -23,10 +25,46 @@
             <RowDefinition Height="395*"/>
         </Grid.RowDefinitions>
         <!--GridRow0 上-->
-        <Rectangle HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="300"/>
-        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
-        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
+        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
+        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
         <!--GridRow1 下-->
-        <TextBox x:Name="MoonLight" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo" Foreground="#FFE8E8E8"/>
+        <TextBox x:Name="MoonLight" Visibility="Collapsed" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo" Foreground="#FFE8E8E8"/>
+        <StackPanel x:Name="ColorSelector" HorizontalAlignment="Left" Height="30" Width="260" Orientation="Horizontal" Background="{x:Null}">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding IsFocused, ElementName=WIndow}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsFocused, ElementName=WIndow}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <StackPanel.Resources>
+                
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <EventSetter Event="Click" Handler="ColorChangeButton_Click"/>
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Bl" DataContext="{x:Static local:ColorDatas.Black}" Background="{Binding BackGroundColor}" Width="40"/>
+            <Button Content="IB" DataContext="{x:Static local:ColorDatas.InkBlue}" Background="{Binding BackGroundColor}"  Width="40"/>
+            <Button Content="AG" DataContext="{x:Static local:ColorDatas.AppleGreen}" Background="{Binding BackGroundColor}"  Width="40"/>
+            <Button Content="Ca" DataContext="{x:Static local:ColorDatas.Canary}" Background="{Binding BackGroundColor}"  Width="40"/>
+            <Button Content="Ro" DataContext="{x:Static local:ColorDatas.Rose}" Background="{Binding BackGroundColor}" Width="40"/>
+            <Button Content="Wh" DataContext="{x:Static local:ColorDatas.White}" Background="{Binding BackGroundColor}" Width="40"/>
+        </StackPanel>
     </Grid>
 </Window>

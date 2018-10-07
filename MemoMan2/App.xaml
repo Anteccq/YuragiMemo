@@ -7,9 +7,6 @@
 
         <Style x:Key="HighLightWindow" TargetType="Window">
             <Style.Triggers>
-                <Trigger Property="IsActive" Value="true">
-                    <Setter Property="Opacity" Value="1.0"/>
-                </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsActive" Value="false"/>

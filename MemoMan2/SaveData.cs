@@ -17,10 +17,37 @@ namespace MemoMan2
         public double Top { get; set; } = 20.0;
 
         [JsonProperty("color")]
-        public ColorData WorldColor { get; set; } = ColorDatas.Black;
+        public virtual ColorData WorldColor { get; set; } = ColorDatas.Black;
 
         //メモテキスト
         [JsonProperty("text")]
         public string Text { get; set; } = "";
+    }
+
+    [JsonObject]
+    public class LoadData : SaveData
+    {
+        [JsonProperty("color")]
+        public LoadColorData _WorldColor { get; set; }
+
+        [JsonIgnore]
+        private ColorData _color = null;
+        [JsonIgnore]
+        public override ColorData WorldColor
+        {
+            get
+            {
+                if(_color == null)
+                {
+                    _color = _WorldColor;
+                }
+                return _color;
+            }
+            set
+            {
+                _color = value;
+            }
+        }
+
     }
 }

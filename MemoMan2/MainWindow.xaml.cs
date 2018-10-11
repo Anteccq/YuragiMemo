@@ -57,7 +57,20 @@ namespace MemoMan2
             //ファイルが存在
             if (File.Exists(App.Filepath))
             {
-                var rawdatas = JsonConvert.DeserializeObject<List<SaveData>>(File.ReadAllText(App.Filepath));
+                string Tako;
+                using (var s = new StreamReader(App.Filepath, Encoding.UTF8))
+                {
+                    Tako = s.ReadToEnd();
+                }
+
+                var rawdatas = JsonConvert.DeserializeObject<List<LoadData>>(File.ReadAllText(App.Filepath));
+
+                MessageBox.Show(File.ReadAllText(App.Filepath));
+
+                foreach(var gyaku in rawdatas)
+                {
+                    MessageBox.Show(gyaku.WorldColor.BackGroundColor.ToString() + " : " + gyaku.Text);
+                }
                 if (rawdatas.Count == 0)
                 {
                     Data = new SaveData();
@@ -91,7 +104,6 @@ namespace MemoMan2
             rightEnd = SystemParameters.WorkArea.Width - this.Width;
             Data = data;
             datas.Add(Data);
-            Debug.WriteLine("ばちっ");
             this.MoonLight.TextChanged += MoonLight_TextChanged;
         }
 
@@ -126,7 +138,9 @@ namespace MemoMan2
 
         private static void DataWrite()
         {
-            var json = JsonConvert.SerializeObject(datas, Formatting.Indented);
+            MessageBox.Show("ばちっ");
+            var saves = new List<SaveData>(datas);
+            var json = JsonConvert.SerializeObject(saves, Formatting.Indented);
             if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
             using (var stream = new StreamWriter(App.Filepath, false, Encoding.UTF8))
             {
@@ -137,17 +151,25 @@ namespace MemoMan2
         private void ColorChangeButton_Click(object sender, RoutedEventArgs e)
         {
             var color = ((ColorData)((Button)sender).DataContext);
-            Data.WorldColor = color;
+            Data.WorldColor.BackGroundColor = color.BackGroundColor;
+            Data.WorldColor.ForeGroundColor = color.ForeGroundColor;
+            MessageBox.Show(Data.WorldColor.BackGroundColor.ToString() + "\n" + Data.WorldColor.ForeGroundColor.ToString());
+
             this.Background = color.BackGroundColor;
             this.MoonLight.Background = color.BackGroundColor;
             this.MoonLight.Foreground = color.ForeGroundColor;
-            this.ColorSelector.Visibility = Visibility.Collapsed;
-        }
-
-        private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            this.ColorSelector.Visibility = Visibility.Visible;
-            ColorSelector.Focus();
+            this.PanelPop.IsOpen = false;
+            DataWrite();
         }
     }
+    /*public class StackPanelViewModel : DependencyObject
+    {
+        public static readonly DependencyProperty StackPanelVisibility = DependencyProperty.Register("Visibility", typeof(Visibility), typeof(StackPanel));
+
+        public Visibility GetVisibility
+        {
+            get { return (Visibility)this.GetValue(StackPanelVisibility); }
+            set { this.SetValue(StackPanelVisibility, value); }
+        }
+    }*/
 }

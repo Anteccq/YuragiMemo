@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:MemoMan2"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
         <Style x:Key="HighLightWindow" TargetType="Window">
+            <Setter Property="Background" Value="{DynamicResource WorldColor}"/>
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>

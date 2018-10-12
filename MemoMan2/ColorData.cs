@@ -13,9 +13,11 @@ namespace MemoMan2
     {
         [JsonProperty("background")]
         public SolidColorBrush BackGroundColor { get; set; }
-        
+
         [JsonProperty("foreground")]
         public SolidColorBrush ForeGroundColor { get; set; }
+
+        public ColorData() : this(Colors.Black, Colors.Black) { }
 
         public ColorData(Color bg, Color fg)
         {

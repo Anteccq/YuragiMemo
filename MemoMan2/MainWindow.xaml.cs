@@ -27,9 +27,9 @@ namespace MemoMan2
         //データ用リスト
         private static List<SaveData> datas = new List<SaveData>();
 
-        private SaveData _datas;
         private double rightEnd;
 
+        private SaveData _datas;
         private SaveData Data
         {
             get
@@ -58,6 +58,7 @@ namespace MemoMan2
             if (File.Exists(App.Filepath))
             {
                 var rawdatas = JsonConvert.DeserializeObject<List<SaveData>>(File.ReadAllText(App.Filepath));
+                MessageBox.Show(File.ReadAllText(App.Filepath));
                 if (rawdatas.Count == 0)
                 {
                     Data = new SaveData();
@@ -66,6 +67,7 @@ namespace MemoMan2
                 var isFirst = true;
                 foreach (var data in rawdatas)
                 {
+                    MessageBox.Show(data.WorldColor.BackGroundColor.ToString());
                     if (isFirst)
                     {
                         Data = data;
@@ -91,7 +93,6 @@ namespace MemoMan2
             rightEnd = SystemParameters.WorkArea.Width - this.Width;
             Data = data;
             datas.Add(Data);
-            Debug.WriteLine("ばちっ");
             this.MoonLight.TextChanged += MoonLight_TextChanged;
         }
 
@@ -138,16 +139,11 @@ namespace MemoMan2
         {
             var color = ((ColorData)((Button)sender).DataContext);
             Data.WorldColor = color;
+            var vm = (SolidColorBrush)this.Resources["WorldColor"];
+            vm.Color = color.BackGroundColor.Color;
             this.Background = color.BackGroundColor;
-            this.MoonLight.Background = color.BackGroundColor;
             this.MoonLight.Foreground = color.ForeGroundColor;
-            this.ColorSelector.Visibility = Visibility.Collapsed;
-        }
-
-        private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            this.ColorSelector.Visibility = Visibility.Visible;
-            ColorSelector.Focus();
+            DataWrite();
         }
     }
 }

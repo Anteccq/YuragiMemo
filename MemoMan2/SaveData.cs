@@ -17,7 +17,7 @@ namespace MemoMan2
         public double Top { get; set; } = 20.0;
 
         [JsonProperty("color")]
-        public ColorData WorldColor { get; set; } = ColorDatas.Black;
+        public ColorData WorldColor { get; set; } = new ColorData();
 
         //メモテキスト
         [JsonProperty("text")]

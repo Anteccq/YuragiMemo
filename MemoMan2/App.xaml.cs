@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     /// <summary>
     /// App.xaml の相互作用ロジック

@@ -1,19 +1,26 @@
-﻿<Window x:Class="MemoMan2.MainWindow"
+﻿<Window x:Class="YuragiMemo.MainWindow"
+        x:Name="WIndow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MemoMan2"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:local="clr-namespace:YuragiMemo"
         mc:Ignorable="d"
         AllowsTransparency="True"
-        Style="{StaticResource HighLightWindow}"
-        Title="MemoMan2" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="{DynamicResource DefaultColor}" BorderThickness="1" Foreground="Black" Icon="icons/MemoMan2.png">
+        Style="{DynamicResource HighLightWindow}"
+        Title="YuragiMemo" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderThickness="1" Foreground="Black" Icon="icons/MemoMan2.png" Background="{DynamicResource WorldColor}">
     <Window.Resources>
+        <SolidColorBrush x:Name="WorldColor" x:Key="WorldColor"/>
         <!--デフォルトブラシ定義 StaticResourceは変更通知がされない-->
-        <SolidColorBrush x:Key="DefaultColor" Color="Black"/>
         <SolidColorBrush x:Key="DefaultFontColor" Color="Gray"/>
     </Window.Resources>
-
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseRightButtonUp">
+            <ei:ChangePropertyAction TargetName="PanelPop" PropertyName="IsOpen" Value="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.Resources>
         </Grid.Resources>
@@ -23,10 +30,33 @@
             <RowDefinition Height="395*"/>
         </Grid.RowDefinitions>
         <!--GridRow0 上-->
-        <Rectangle HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="300"/>
-        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
-        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="Black" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
+        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource WorldColor}" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
+        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource WorldColor}" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
         <!--GridRow1 下-->
-        <TextBox x:Name="MoonLight" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo" Foreground="#FFE8E8E8"/>
+        <TextBox x:Name="MoonLight" Visibility="Visible" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{DynamicResource WorldColor}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo" Foreground="#FFE8E8E8"/>
+        <Popup x:Name="PanelPop" Placement="Relative"  StaysOpen="False">
+            <StackPanel x:Name="ColorSelector" Focusable="True" HorizontalAlignment="Left" Height="30" Width="280" Orientation="Horizontal" Background="{x:Null}">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}" x:Key="ColorButton">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                        <EventSetter Event="Click" Handler="ColorChangeButton_Click"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="{Binding BackGroundColor}"/>
+                        <Setter Property="Foreground" Value="{Binding ForeGroundColor}"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="Bl" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.Black}" Width="40"/>
+                <Button Content="IB" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.InkBlue}" Width="40"/>
+                <Button Content="AG" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.AppleGreen}" Width="40"/>
+                <Button Content="Ca" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.Canary}" Width="40"/>
+                <Button Content="Ro" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.Rose}" Width="40"/>
+                <Button Content="Wh" Style="{StaticResource ColorButton}" DataContext="{x:Static local:ColorDatas.White}" Width="40"/>
+            </StackPanel>
+        </Popup>
     </Grid>
 </Window>

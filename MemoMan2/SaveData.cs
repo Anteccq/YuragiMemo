@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     [JsonObject]
     public class SaveData
@@ -15,6 +15,9 @@ namespace MemoMan2
         public double Left { get; set; } = 50.0;
         [JsonProperty("top")]
         public double Top { get; set; } = 20.0;
+
+        [JsonProperty("color")]
+        public ColorData WorldColor { get; set; } = new ColorData();
 
         //メモテキスト
         [JsonProperty("text")]

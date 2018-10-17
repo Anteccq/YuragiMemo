@@ -16,10 +16,10 @@ using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// MainWindow.xaml の相互作用ロジック+
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,9 +27,9 @@ namespace MemoMan2
         //データ用リスト
         private static List<SaveData> datas = new List<SaveData>();
 
-        private SaveData _datas;
         private double rightEnd;
 
+        private SaveData _datas;
         private SaveData Data
         {
             get
@@ -41,6 +41,8 @@ namespace MemoMan2
                 this._datas = value;
                 this.Left = _datas.Left;
                 this.Top = _datas.Top;
+                this.Background = _datas.WorldColor.BackGroundColor;
+                this.MoonLight.Foreground = _datas.WorldColor.ForeGroundColor;
                 this.MoonLight.Text = _datas.Text;
             }
         }
@@ -48,7 +50,6 @@ namespace MemoMan2
         //初期状態での呼び出し
         public MainWindow()
         {
-
             if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
             InitializeComponent();
             rightEnd = SystemParameters.WorkArea.Width - this.Width;
@@ -57,8 +58,13 @@ namespace MemoMan2
             if (File.Exists(App.Filepath))
             {
                 var rawdatas = JsonConvert.DeserializeObject<List<SaveData>>(File.ReadAllText(App.Filepath));
+                if (rawdatas.Count == 0)
+                {
+                    Data = new SaveData();
+                    datas.Add(Data);
+                }
                 var isFirst = true;
-                foreach(var data in rawdatas)
+                foreach (var data in rawdatas)
                 {
                     if (isFirst)
                     {
@@ -82,9 +88,9 @@ namespace MemoMan2
         public MainWindow(SaveData data)
         {
             InitializeComponent();
+            rightEnd = SystemParameters.WorkArea.Width - this.Width;
             Data = data;
             datas.Add(Data);
-            Debug.WriteLine("ばちっ");
             this.MoonLight.TextChanged += MoonLight_TextChanged;
         }
 
@@ -121,11 +127,21 @@ namespace MemoMan2
         {
             var json = JsonConvert.SerializeObject(datas, Formatting.Indented);
             if (!Directory.Exists(App.PATH)) Directory.CreateDirectory(App.PATH);
-            using(var stream = new StreamWriter(App.Filepath, false, Encoding.UTF8))
+            using (var stream = new StreamWriter(App.Filepath, false, Encoding.UTF8))
             {
                 stream.Write(json);
             }
         }
-    }
 
+        private void ColorChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var color = ((ColorData)((Button)sender).DataContext);
+            Data.WorldColor = color;
+            var vm = (SolidColorBrush)this.Resources["WorldColor"];
+            vm.Color = color.BackGroundColor.Color;
+            this.Background = color.BackGroundColor;
+            this.MoonLight.Foreground = color.ForeGroundColor;
+            DataWrite();
+        }
+    }
 }

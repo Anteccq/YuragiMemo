@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Newtonsoft.Json;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     [JsonObject]
     public class ColorData

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     [JsonObject]
     public class SaveData

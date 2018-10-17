@@ -16,10 +16,10 @@ using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace MemoMan2
+namespace YuragiMemo
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// MainWindow.xaml の相互作用ロジック+
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -58,7 +58,6 @@ namespace MemoMan2
             if (File.Exists(App.Filepath))
             {
                 var rawdatas = JsonConvert.DeserializeObject<List<SaveData>>(File.ReadAllText(App.Filepath));
-                MessageBox.Show(File.ReadAllText(App.Filepath));
                 if (rawdatas.Count == 0)
                 {
                     Data = new SaveData();
@@ -67,7 +66,6 @@ namespace MemoMan2
                 var isFirst = true;
                 foreach (var data in rawdatas)
                 {
-                    MessageBox.Show(data.WorldColor.BackGroundColor.ToString());
                     if (isFirst)
                     {
                         Data = data;

@@ -41,6 +41,8 @@ namespace YuragiMemo
                 this._datas = value;
                 this.Left = _datas.Left;
                 this.Top = _datas.Top;
+                this.Width = _datas.Width;
+                this.Height = _datas.Height;
                 this.Background = _datas.WorldColor.BackGroundColor;
                 this.MoonLight.Foreground = _datas.WorldColor.ForeGroundColor;
                 this.MoonLight.Text = _datas.Text;
@@ -141,6 +143,21 @@ namespace YuragiMemo
             vm.Color = color.BackGroundColor.Color;
             this.Background = color.BackGroundColor;
             this.MoonLight.Foreground = color.ForeGroundColor;
+            DataWrite();
+        }
+
+        private void WIndow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+        }
+
+        private void WIndow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Data.Height = this.Height;
+            Data.Width = this.Width;
             DataWrite();
         }
     }

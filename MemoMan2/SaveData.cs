@@ -16,6 +16,12 @@ namespace YuragiMemo
         [JsonProperty("top")]
         public double Top { get; set; } = 20.0;
 
+        [JsonProperty("width")]
+        public double Width { get; set; } = 300.0;
+
+        [JsonProperty("Height")]
+        public double Height { get; set; } = 300.0;
+
         [JsonProperty("color")]
         public ColorData WorldColor { get; set; } = new ColorData();
 

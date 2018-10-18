@@ -17,7 +17,7 @@ namespace YuragiMemo
         [JsonProperty("foreground")]
         public SolidColorBrush ForeGroundColor { get; set; }
 
-        public ColorData() : this(Colors.Black, Colors.Black) { }
+        public ColorData() : this(Colors.Black, Colors.White) { }
 
         public ColorData(Color bg, Color fg)
         {

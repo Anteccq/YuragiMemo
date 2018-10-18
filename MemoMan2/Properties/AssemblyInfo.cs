@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("ふわっとでてくるメモです")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MemoMan2")]
+[assembly: AssemblyProduct("YuragiMemo")]
 [assembly: AssemblyCopyright("Copyright ©ProjectAntiqueR  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

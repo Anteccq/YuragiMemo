@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         AllowsTransparency="True"
         Style="{DynamicResource HighLightWindow}"
-        Title="YuragiMemo" Height="300" Width="300" WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderThickness="1" Foreground="Black" Icon="icons/MemoMan2.png" Background="{DynamicResource WorldColor}">
+        Title="YuragiMemo" Height="300" Width="300" SizeChanged="WIndow_SizeChanged" WindowStyle="None" MouseDoubleClick="WIndow_MouseDoubleClick" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderThickness="1" Foreground="Black" Background="{DynamicResource WorldColor}" Icon="icons/YuragiIcon.png">
     <Window.Resources>
         <SolidColorBrush x:Name="WorldColor" x:Key="WorldColor"/>
         <!--デフォルトブラシ定義 StaticResourceは変更通知がされない-->

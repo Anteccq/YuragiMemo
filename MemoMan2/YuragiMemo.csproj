@@ -50,7 +50,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Yuragi.ico</ApplicationIcon>
+    <ApplicationIcon>YuragiIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -143,10 +143,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Yuragi.ico" />
+    <Resource Include="icons\YuragiIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\MemoMan2.png" />
+    <Resource Include="YuragiIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

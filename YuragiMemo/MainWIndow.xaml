@@ -30,8 +30,18 @@
             <RowDefinition Height="395*"/>
         </Grid.RowDefinitions>
         <!--GridRow0 上-->
-        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource WorldColor}" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18"/>
-        <Button x:Name="NewButton" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50" Background="{DynamicResource WorldColor}" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
+        <Button x:Name="CloseButton" Click="CloseButton_Click" Content="X" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="50" BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0" FontSize="18">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ButtonDefaultStyle}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="NewButton" Style="{StaticResource ButtonDefaultStyle}" Click="NewButton_Click" Content="＋" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="50"  BorderBrush="{x:Null}" Foreground="{StaticResource DefaultFontColor}" Height="30" Padding="0" BorderThickness="0"/>
         <!--GridRow1 下-->
         <TextBox x:Name="MoonLight" Visibility="Visible" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{DynamicResource WorldColor}" Margin="5,0" BorderThickness="0" FontSize="16" FontFamily="Meiryo" Foreground="#FFE8E8E8"/>
         <Popup x:Name="PanelPop" Placement="Relative"  StaysOpen="False">

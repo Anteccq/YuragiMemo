@@ -85,7 +85,9 @@ namespace YuragiMemo
                 datas.Add(Data);
             }
             this.MoonLight.TextChanged += MoonLight_TextChanged;
-
+            var txt = this.MoonLight.Text;
+            if (txt == null || Equals(txt, "")) Title = "YuragiMemo";
+            else if (txt.Substring(0, 10) != Title) Title = txt.Substring(0, 10);
         }
         public MainWindow(SaveData data)
         {
@@ -94,6 +96,9 @@ namespace YuragiMemo
             Data = data;
             datas.Add(Data);
             this.MoonLight.TextChanged += MoonLight_TextChanged;
+            var txt = this.MoonLight.Text;
+            if (txt == null || Equals(txt, "")) Title = "YuragiMemo";
+            else if (txt.Substring(0, 10) != Title) Title = txt.Substring(0, 10);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -121,7 +126,10 @@ namespace YuragiMemo
 
         private void MoonLight_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Data.Text = this.MoonLight.Text;
+            var txt = this.MoonLight.Text;
+            Data.Text = txt;
+            if (txt == null || Equals(txt, "")) Title = "YuragiMemo";
+            else if (txt.Substring(0, 10) != Title) Title = txt.Substring(0, 10);
             DataWrite();
         }
 
